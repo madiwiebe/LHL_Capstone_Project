@@ -94,3 +94,44 @@ def calculate_solar_energy(solar_radiation):
     solar_energy_W = avg_solar_panel_area_m2 * avg_solar_panel_efficiency * solar_radiation * avg_performance_ratio
 
     return solar_energy_W
+
+# function to read .csv into dataframe
+def to_df(file_name):
+    # remove .csv from variable name
+    data_name = file_name.split('.csv')[0]
+    # define path variable for data folder containing concatenated .csv files
+    path_2 = '../data'
+    # read file
+    df_name = pd.read_csv(f'{path_2}/{data_name}.csv', index_col=0)
+
+    return df_name
+
+# function to identify column names
+def list_columns(df_name):
+    # list column names
+    column_names = list(df_name.columns)
+    
+    return column_names
+
+# function to count null values
+def count_nulls(df_name):    
+    # count null values
+    num_nulls = df_name.isna().sum()
+
+    return num_nulls
+
+# function to check for duplicates
+def count_row_duplicates(df_name):
+    duplicate_rows = df_name.duplicated()
+    duplicate_index = duplicate_rows[duplicate_rows].index
+    
+    return duplicate_index
+
+# function to perform all three
+def start_cleaning(df_name):
+    df_columns = list_columns(df_name)
+    df_nulls = count_nulls(df_name)
+    df_duplicates = count_row_duplicates(df_name)
+
+    return df_columns, df_nulls, df_duplicates
+
