@@ -209,7 +209,7 @@ def find_dtypes(files):
     return dtype_dict
 
 # function to add columns to tables in Postgres database
-def add_sql_columms(file_name):
+def add_sql_columms(file_name, path):
     table_name = file_name.split('.csv')[0]
     postgres_password = os.environ['POSTGRES_PASS']
     con = psycopg2.connect(
@@ -221,7 +221,7 @@ def add_sql_columms(file_name):
     )
     con.rollback()
     cursor = con.cursor()
-    column_names = pd.read_csv(f'{path_2}/{file_name}', nrows=1)
+    column_names = pd.read_csv(f'{path}/{file_name}', nrows=1)
     col_name_list = list(column_names)
     col_name_no_spaces = [sub.replace(' ','_') for sub in col_name_list]
     dtype_list = list(column_names.dtypes)
@@ -234,6 +234,8 @@ def add_sql_columms(file_name):
             dtype_list[i] = 'varchar'
 
     for i in range(len(col_name_no_spaces)):
+        # if col_name_no_spaces[i] == 'time':
+        #     dtype_list[i] = 'timestamp'
         sql = f"""
             ALTER TABLE {table_name}
             ADD COLUMN IF NOT EXISTS {col_name_no_spaces[i]} {dtype_list[i]};
@@ -244,7 +246,7 @@ def add_sql_columms(file_name):
 
 
 # function to add values to columns in Postgres database
-def add_values(file_name):
+def add_values(file_name, path):
     table_name = file_name.split('.csv')[0]
     postgres_password = os.environ['POSTGRES_PASS']
     con = psycopg2.connect(
@@ -256,13 +258,13 @@ def add_values(file_name):
     )
     con.rollback()
     cursor = con.cursor()
-    column_names = pd.read_csv(f'{path_3}/{file_name}', nrows=0)
+    column_names = pd.read_csv(f'{path}/{file_name}', nrows=0)
     col_name_list = list(column_names)
     col_name_no_spaces = [sub.replace(' ','_') for sub in col_name_list]
     column_name_string = ','.join(col_name_no_spaces)
     sql = f"""
         COPY {table_name}({column_name_string})
-        FROM '{path_3}/{file_name}'
+        FROM '{path}/{file_name}'
         DELIMITER ','
         CSV HEADER;
     """
@@ -284,7 +286,7 @@ def create_col_name_set(folder):
         col_name_set.update(set(file_col_name_list))
     return col_name_set
 
-
+# function to concatenate all files within a network folder
 def combine_data(network_name):
     print(f'reading {network_name} files')
     df_list = read_files_to_df_list(network_name)
@@ -292,3 +294,165 @@ def combine_data(network_name):
     df_combined = concat_folder_dfs(df_list)
     print(f'saving {network_name} data to csv')
     df_combined.to_csv(f'../data/{network_name}_data_clean.csv', index=False)
+
+# function to copy all data from a list of tables into a destination table
+def merge_tables(table_list, destination_table):
+    
+    postgres_password = os.environ['POSTGRES_PASS']
+    con = psycopg2.connect(
+        database='lhl_capstone_project',
+        user='postgres',
+        password=f'{postgres_password}',
+        host='localhost',
+        port='5432'
+    )
+    con.rollback()
+    cursor = con.cursor()
+
+    for table in table_list:
+        table_name = table.split('.csv')[0]
+        sql1 = f"""ALTER TABLE {table_name}
+                ALTER COLUMN time
+                TYPE timestamp
+                USING time::timestamp without time zone;
+        """
+        print(f"Converting 'time' column in {table_name} to timestamp")
+        cursor.execute(sql1)
+        con.commit()
+
+        column_names = pd.read_csv(f'{path_2}/{table}', nrows=1)
+        col_name_list = list(column_names)
+        column_name_list_string = ','.join(col_name_list) 
+
+        sql2 = f"""
+            INSERT INTO {destination_table}({column_name_list_string})
+            SELECT {column_name_list_string}
+            FROM {table_name};
+        """
+        print(f"Adding values from {table_name} to {destination_table}")
+
+        cursor.execute(sql2)
+        con.commit()
+
+
+# function to join metadata
+def create_joined_table(table_name):
+
+    postgres_password = os.environ['POSTGRES_PASS']
+    con = psycopg2.connect(
+        database='lhl_capstone_project',
+        user='postgres',
+        password=f'{postgres_password}',
+        host='localhost',
+        port='5432'
+    )
+    con.rollback()
+    cursor = con.cursor()
+
+    sql = f"""
+    DROP TABLE IF EXISTS {table_name}_final; 
+    
+    CREATE TABLE {table_name}_final AS
+    SELECT *
+    FROM {table_name}
+    JOIN station_metadata_clean
+    USING(network_id, station_id);
+    """
+    print(f"Successfully joined metadata with {table_name}")
+
+    cursor.execute(sql)
+    con.commit()
+
+# function to close connection to pgAdmin database
+def close_conn():
+    postgres_password = os.environ['POSTGRES_PASS']
+    con = psycopg2.connect(
+        database='lhl_capstone_project',
+        user='postgres',
+        password=f'{postgres_password}',
+        host='localhost',
+        port='5432'
+    )
+    con.close()    
+
+# function to calculate min, max, avg of a column
+def max_min_avg(table_name, column_name):
+    postgres_password = os.environ['POSTGRES_PASS']
+    con = psycopg2.connect(
+        database='lhl_capstone_project',
+        user='postgres',
+        password=f'{postgres_password}',
+        host='localhost',
+        port='5432'
+    )
+    con.rollback()
+    cursor = con.cursor()
+
+    sql = f"""
+    SELECT MAX({column_name}), MIN({column_name}), AVG({column_name})
+    FROM {table_name};
+    """
+    print(f"Fetching results for {column_name}...")
+
+    cursor.execute(sql)
+    result = cursor.fetchone()
+    return result
+
+# function to count null values in a column
+def count_na(table_name, column_name):
+    postgres_password = os.environ['POSTGRES_PASS']
+    con = psycopg2.connect(
+        database='lhl_capstone_project',
+        user='postgres',
+        password=f'{postgres_password}',
+        host='localhost',
+        port='5432'
+    )
+    con.rollback()
+    cursor = con.cursor()
+
+    sql = f"""
+    SELECT COUNT(*) 
+    FROM {table_name}  
+    WHERE {column_name} IS NULL;
+    """
+    print(f"Counting null values for {column_name}...")
+
+    cursor.execute(sql)
+    result = cursor.fetchone()
+    result1 = result[0]
+    return result1
+    
+
+# function to fill null values in a column with its average
+def fill_na_with_avg(table_name, column_name):
+    postgres_password = os.environ['POSTGRES_PASS']
+    con = psycopg2.connect(
+        database='lhl_capstone_project',
+        user='postgres',
+        password=f'{postgres_password}',
+        host='localhost',
+        port='5432'
+    )
+    con.rollback()
+    cursor = con.cursor()
+
+    sql1 = f"""
+    SELECT AVG({column_name})
+    FROM {table_name}
+    """
+    print(f"Calculating average for {column_name}...")
+    cursor.execute(sql1)
+    result = cursor.fetchone()
+    result1 = result[0]
+
+    sql2 = f"""
+    UPDATE {table_name} 
+    SET {column_name} = {result1} 
+    WHERE {column_name} IS NULL;
+    """
+    print(f"Filling null values for {column_name}...")
+
+    cursor.execute(sql2)
+    con.commit()
+    
