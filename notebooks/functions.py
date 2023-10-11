@@ -179,6 +179,20 @@ def start_cleaning(df_name):
 
     return df_columns, df_nulls, df_duplicates
 
+# function that contains database connection info
+def connect_to_db():
+    postgres_password = os.environ['POSTGRES_PASS']
+    con = psycopg2.connect(
+        database='lhl_capstone_project',
+        user='postgres',
+        password=f'{postgres_password}',
+        host='localhost',
+        port='5432'
+    )
+    con.rollback()
+    cursor = con.cursor()   
+
+
 # function to create an empty table in Postgres database
 def create_sql_table(file_name):
     table_name = file_name.split('.csv')[0]
@@ -333,6 +347,7 @@ def merge_tables(table_list, destination_table):
 
         cursor.execute(sql2)
         con.commit()
+        print(f"Successfully added values to {destination_table}")
 
 
 # function to join metadata
@@ -421,8 +436,7 @@ def count_na(table_name, column_name):
     cursor.execute(sql)
     result = cursor.fetchone()
     result1 = result[0]
-    return result1
-    
+    return result1   
 
 # function to fill null values in a column with its average
 def fill_na_with_avg(table_name, column_name):
