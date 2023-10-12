@@ -21,6 +21,8 @@
     <li>
       <a href="#about-the-project">About The Project</a>
       <ul>
+        <li><a href="#key-findings">Key Findings</a></li>
+        <li><a href="#data-considerations">Data Considerations</a></li>
         <li><a href="#tech-stack">Tech Stack</a></li>
       </ul>
     </li>
@@ -44,15 +46,26 @@
 
 Renewable energy is an ever-growing technology sector. As renewable energy options become more accessible to residential settings, homeowners face a decision: which form of energy production is best suited for their home?
 
-This project used historic climate data for the province of BC, Canada to estimate annual energy production from wind or solar resources for a given region. 
+This project used historic climate data for the province of BC, Canada to estimate annual energy production potential from wind or solar resources for a given region. 
 Solar radiation ($W/{m^2}$) and wind speed ($m/s$) were the key variables used to calculate average solar energy produced over time (kWh) and average wind energy produced over time (kWh). 
 
-Overall, wind and solar energy were found to have comparable average annual output.
+<!-- KEY FINDINGS -->
+### Key Findings
+Overall, wind and solar energy were found to have comparable maximum values for annual energy generation potential.
 
-Solar energy was found to be more consistent and the data was more uniform.
-Wind energy had larger scope (more data over a longer period of time), and had wider range (max value compared to min value). 
+The region with the highest wind energy potential was the Cariboo region (2,942 kWh / year). The region with the lowest wind energy potential was the Prince George region (470 kWh / year).
 
-However, to achieve a more realistic representation and reliable basis of comparison, more data must be collected and standardized.
+The region with the highest solar energy potential was the Northeast region (2,819 kWh / year). The region with the lowest solar energy potential was the Vancouver Island / Coastal region (1,843 kWh / year).
+
+Although both wind and solar energy potential demonstrated highly seasonal trends, both were predicted to produce consistent annual averages over time for a given region.
+
+<!-- DATA CONSIDERATIONS -->
+### Data considerations: 
+- Wind data included a larger number of observations from a higher number of weather stations, and all regions were represented.
+- Solar data had fewer observations from a smaller number of weather stations, and not all regions were represented.
+- Wind energy had larger timescale (more data over a longer period of time), and had wider range between the maximum values and the minimum values. 
+
+To achieve a more realistic representation of energy production potential and provide a more reliable basis of comparison, more data must be collected and standardized.
 
 <!-- TECH STACK -->
 ### Tech stack:
