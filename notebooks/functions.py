@@ -81,63 +81,100 @@ def concat_folder_dfs(folder_df_list):
     return all_folder_dfs
 
 
-# function to calculate the air density of humid air
-def calculate_air_density(Pressure_hPa, Temp_C, RelativeHumidity):
-    SpecificGasConstantDryAir = 287.0531
-    SpecificGasConstantWaterVapour = 461.4964
+# # function to calculate the air density of humid air
+# def calculate_air_density(Pressure_hPa, Temp_C, RelativeHumidity):
+#     SpecificGasConstantDryAir = 287.0531
+#     SpecificGasConstantWaterVapour = 461.4964
 
-    Pressure_Pa = Pressure_hPa * 100
-    Temp_K = Temp_C + 273.15
+#     Pressure_Pa = Pressure_hPa * 100
+#     Temp_K = Temp_C + 273.15
 
-    # Computing Es_hPa
-    Eso = 6.1078
-    c0 = 0.99999683
-    c1 = -0.90826951*10**-2
-    c2 = 0.78736169*10**-4
-    c3 = -0.61117958*10**-6
-    c4 = 0.43884187*10**-8
-    c5 = -0.29883885*10**-10
-    c6 = 0.21874425*10**-12
-    c7 = -0.17892321*10**-14
-    c8 = 0.11112018*10**-16
-    c9 = -0.30994571*10**-19
+#     # Computing Es_hPa
+#     Eso = 6.1078
+#     c0 = 0.99999683
+#     c1 = -0.90826951*10**-2
+#     c2 = 0.78736169*10**-4
+#     c3 = -0.61117958*10**-6
+#     c4 = 0.43884187*10**-8
+#     c5 = -0.29883885*10**-10
+#     c6 = 0.21874425*10**-12
+#     c7 = -0.17892321*10**-14
+#     c8 = 0.11112018*10**-16
+#     c9 = -0.30994571*10**-19
 
-    p = c0 + Temp_C * (c1 + Temp_C * (c2 + Temp_C * (c3 + Temp_C *
-                        (c4 + Temp_C * (c5 + Temp_C * (c6 + Temp_C * (c7 + Temp_C * (c8 + Temp_C * c9))))))))
+#     p = c0 + Temp_C * (c1 + Temp_C * (c2 + Temp_C * (c3 + Temp_C *
+#                         (c4 + Temp_C * (c5 + Temp_C * (c6 + Temp_C * (c7 + Temp_C * (c8 + Temp_C * c9))))))))
 
-    Es_hPa = Eso / (p**8)
-    Es_Pa = Es_hPa * 100
+#     Es_hPa = Eso / (p**8)
+#     Es_Pa = Es_hPa * 100
 
-    PartialPressureWaterVapour_Pa = Es_Pa * RelativeHumidity
-    PartialPressureDryAir_Pa = Pressure_Pa - PartialPressureWaterVapour_Pa
+#     PartialPressureWaterVapour_Pa = Es_Pa * RelativeHumidity
+#     PartialPressureDryAir_Pa = Pressure_Pa - PartialPressureWaterVapour_Pa
 
-    DensityHumidAir_Pa = (PartialPressureDryAir_Pa / (SpecificGasConstantDryAir * Temp_K) + 
-                        PartialPressureWaterVapour_Pa / (SpecificGasConstantWaterVapour * Temp_K))
+#     DensityHumidAir_Pa = (PartialPressureDryAir_Pa / (SpecificGasConstantDryAir * Temp_K) + 
+#                         PartialPressureWaterVapour_Pa / (SpecificGasConstantWaterVapour * Temp_K))
     
-    return DensityHumidAir_Pa
+#     return DensityHumidAir_Pa
 
 
-# function to calculate wind energy from air density and wind speed
-def calculate_wind_energy(air_density, wind_speed):
-    avg_wind_efficiency = 0.3
-    avg_blade_length_m = 2.15
-    pi = math.pi
+# # function to calculate wind energy from air density and wind speed
+# def calculate_wind_energy(air_density, wind_speed):
+#     avg_wind_efficiency = 0.3
+#     avg_blade_length_m = 2.15
+#     pi = math.pi
 
-    wind_energy_W = 0.5 * avg_wind_efficiency * air_density * pi * (avg_blade_length_m**2) * (wind_speed**3)
+#     wind_energy_W = 0.5 * avg_wind_efficiency * air_density * pi * (avg_blade_length_m**2) * (wind_speed**3)
 
-    return wind_energy_W
+#     return wind_energy_W
 
+# function to calculate hours of daylight per day by month
+def hours_of_sunlight(df):
+    if pd.DatetimeIndex(df['time']).month == 1:
+        hos = 7.5
+    elif pd.DatetimeIndex(df['time']).month == 2:
+        hos = 9
+    elif pd.DatetimeIndex(df['time']).month == 3:
+        hos = 11
+    elif pd.DatetimeIndex(df['time']).month == 4:
+        hos = 13
+    elif pd.DatetimeIndex(df['time']).month == 5:
+        hos = 15
+    elif pd.DatetimeIndex(df['time']).month == 6:
+        hos = 16.75
+    elif pd.DatetimeIndex(df['time']).month == 7:
+        hos = 17
+    elif pd.DatetimeIndex(df['time']).month == 8:
+        hos = 15.75
+    elif pd.DatetimeIndex(df['time']).month == 9:
+        hos = 13.75
+    elif pd.DatetimeIndex(df['time']).month == 10:
+        hos = 11.5
+    elif pd.DatetimeIndex(df['time']).month == 11:
+        hos = 9.5
+    else: hos = 7.75
+    return hos
 
 # function to calculate solar energy from solar radiation
-def calculate_solar_energy(solar_radiation):
+def calculate_solar_energy(df):
     avg_solar_panel_area_m2 = 1.7
     avg_solar_panel_efficiency = 0.163
     avg_performance_ratio = 0.8592
+    num_panels = 20
     # solar_radiation must be in units of W/m**2
 
-    solar_energy_W = avg_solar_panel_area_m2 * avg_solar_panel_efficiency * solar_radiation * avg_performance_ratio
+    solar_energy_W = avg_solar_panel_area_m2 * avg_solar_panel_efficiency * df['solar_radiation'] * avg_performance_ratio * num_panels
 
     return solar_energy_W
+
+# function to calculate average daily solar energy production (kWh)
+def avg_daily_solar_kWh(df):
+    
+    hos = hours_of_sunlight(df)
+    solar_energy_W = calculate_solar_energy(df)
+    for day in df['time']:
+        print(f'Calculating daily solar energy average for {day}')
+        df['daily_avg_kWh'] = (df['solar_energy_W'].groupby(['network_id','station_id']).sum() / df.COUNT(solar_energy_W)) / 1000 * hos
+        
 
 # function to read .csv into dataframe
 def to_df(file_name):
