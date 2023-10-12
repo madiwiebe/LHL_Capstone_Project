@@ -2,6 +2,8 @@
 
 <h1 style="text-align: center;">Wind or Solar? Taking Renewable Energy Home in Any Climate.</h1>
 
+![Map of wind energy production in BC](./images/Map BC wind energy production_cropped.png)
+
 ## About the Project
 
 Renewable energy is an ever-growing technology sector. As renewable energy options become more accessible to residential settings, homeowners face a decision: which form of energy production is best suited for their home?
