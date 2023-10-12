@@ -61,10 +61,17 @@ However, to achieve a more realistic representation and reliable basis of compar
 
 ## Results
 
-The results of this project are primarily descriptive, and are intended to lay the groundwork for more detailed and comprehensive data. 
+The results of this project are primarily descriptive, and are intended to lay the groundwork for more detailed analysis with more comprehensive data. 
 
 Key insights relate to average energy production over time, energy production by energy source, and regional trends.
 
+### Question 1: What is the average annual wind energy potential of each region?
+
+### Question 2: What is the average annual solar energy potential of each region?
+
+### Question 3: Which regions have the highest energy potential for each renewable resource?
+
+### Question 4: How does the energy potential for each resource change over time? How much impact does seasonality have on each resource's energy potential?
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
