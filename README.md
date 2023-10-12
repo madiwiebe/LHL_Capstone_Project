@@ -1,21 +1,73 @@
 <a name="readme-top"></a>
 
-<h1 style="text-align: center;">Wind or Solar? Taking Renewable Energy Home in Any Climate.</h1>
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/madiwiebe/LHL_Capstone_Project">
+    <img src="images/wind_turbines_image.jpg" alt="Logo" width="240" height="240">
+  </a>
 
+<h1 align="center">Wind or Solar?</h3>
+
+  <p align="center">
+    Taking Renewable Energy Home in Any Climate.
+  </p>
+</div>
+
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#key-findings">Key Findings</a></li>
+        <li><a href="#data-considerations">Data Considerations</a></li>
+        <li><a href="#tech-stack">Tech Stack</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#process">Process</a>
+      <ul>
+        <li><a href="#data-acquisition">Data Acquisition</a></li>
+        <li><a href="#data-cleaning-and-eda">Data Cleaning and EDA</a></li>
+        <li><a href="feature-engineering">Feature Engineering</li>
+        <li><a href="visualizations-and-forecasting">Visualizations and Forecasting< /li>
+      </ul>
+    </li>
+    <li><a href="#results">Results</a></li>
+    <li><a href="#challenges">Challenges</a></li>
+    <li><a href="#future-goals">Future Goals</a></li>
+  </ol>
+</details>
+
+<!-- ABOUT THE PROJECT -->
 ## About the Project
 
 Renewable energy is an ever-growing technology sector. As renewable energy options become more accessible to residential settings, homeowners face a decision: which form of energy production is best suited for their home?
 
-This project used historic climate data for the province of BC, Canada to estimate annual energy production from wind or solar resources for a given region. 
+This project used historic climate data for the province of BC, Canada to estimate annual energy production potential from wind or solar resources for a given region. 
 Solar radiation ($W/{m^2}$) and wind speed ($m/s$) were the key variables used to calculate average solar energy produced over time (kWh) and average wind energy produced over time (kWh). 
 
-Overall, wind and solar energy were found to have comparable average annual output.
+<!-- KEY FINDINGS -->
+### Key Findings
+Overall, wind and solar energy were found to have comparable maximum values for annual energy generation potential.
 
-Solar energy was found to be more consistent and the data was more uniform.
-Wind energy had larger scope (more data over a longer period of time), and had wider range (max value compared to min value). 
+The region with the highest wind energy potential was the Cariboo region (2,942 kWh / year). The region with the lowest wind energy potential was the Prince George region (470 kWh / year).
 
-However, to achieve a more realistic representation and reliable basis of comparison, more data must be collected and standardized.
+The region with the highest solar energy potential was the Northeast region (2,819 kWh / year). The region with the lowest solar energy potential was the Vancouver Island / Coastal region (1,843 kWh / year).
 
+Although both wind and solar energy potential demonstrated highly seasonal trends, both were predicted to produce consistent annual averages over time for a given region.
+
+<!-- DATA CONSIDERATIONS -->
+### Data considerations: 
+- Wind data included a larger number of observations from a higher number of weather stations, and all regions were represented.
+- Solar data had fewer observations from a smaller number of weather stations, and not all regions were represented.
+- Wind energy had larger timescale (more data over a longer period of time), and had wider range between the maximum values and the minimum values. 
+
+To achieve a more realistic representation of energy production potential and provide a more reliable basis of comparison, more data must be collected and standardized.
+
+<!-- TECH STACK -->
 ### Tech stack:
 - Python
 - Pandas
@@ -24,11 +76,14 @@ However, to achieve a more realistic representation and reliable basis of compar
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+<!-- PROCESS -->
 ## Process
+<!-- DATA ACQUISITION -->
 ### Data Acquisition
 - Dataset was downloaded from the [Pacific Climate Data Consortium](https://services.pacificclimate.org/met-data-portal-pcds/app/#close)
 - Weather station metadata downloaded separately
 
+<!-- DATA CLEANING AND EDA -->
 ### Data cleaning and EDA
 - Extract wind and solar data from weather station files
 - Create a separate file for each 
@@ -41,6 +96,7 @@ However, to achieve a more realistic representation and reliable basis of compar
 - Remove rows with null values in wind speed or solar radiation
 - Remove data with observations outside of a reasonable range
 
+<!-- FEATURE ENGINEERING -->
 ### Feature engineering
 - Create columns for Network ID and Station ID
 - Create calculated columns for wind energy and solar energy
@@ -48,7 +104,8 @@ However, to achieve a more realistic representation and reliable basis of compar
 - Calculate annual averages for each weather station
 - Assign weather stations to regional groups (ignoring network provider)
 
-### Creating visualizations
+<!-- VISUALIZATIONS AND FORECASTING -->
+### Visualizations and forecasting
 - Weather station mapping
   - Distribution
   - Observation frequency
@@ -59,6 +116,7 @@ However, to achieve a more realistic representation and reliable basis of compar
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+<!-- RESULTS -->
 ## Results
 
 The results of this project are primarily descriptive, and are intended to lay the groundwork for more detailed analysis with more comprehensive data. 
@@ -75,6 +133,7 @@ Key insights relate to average energy production over time, energy production by
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+<!-- CHALLENGES -->
 ## Challenges 
 
 - Integrating data from 10 distinct weather station networks posed several challenges. Normalizing measurement units, variable names, observation frequencies, and date ranges were all elements that needed significant effort.
@@ -83,6 +142,7 @@ Key insights relate to average energy production over time, energy production by
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+<!-- FUTURE GOALS -->
 ## Future Goals
 
 - Combine data from other weather resources to improve location coverage.
