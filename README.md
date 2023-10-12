@@ -123,13 +123,21 @@ The results of this project are primarily descriptive, and are intended to lay t
 
 Key insights relate to average energy production over time, energy production by energy source, and regional trends.
 
-### Question 1: What is the average annual wind energy potential of each region?
+### Question 1: What is the average annual wind energy potential of each weather station?
 
-### Question 2: What is the average annual solar energy potential of each region?
+![Map: wind energy production by weather station kWh](images/map_bc_wind_energy_production.png)
 
-### Question 3: Which regions have the highest energy potential for each renewable resource?
+### Question 2: What is the average annual solar energy potential of each weather station?
 
-### Question 4: How does the energy potential for each resource change over time? How much impact does seasonality have on each resource's energy potential?
+![Map: solar energy production by weather station kWh](images/map_bc_solar_energy_production.png)
+
+### Question 2: Which regions have the highest energy potential for each renewable resource?
+
+![Graph energy production by region kWh](images/graphs_annual_energy_by_region.png)
+
+### Question 3: How does the energy potential for each resource change over time? How much impact does seasonality have on each resource's energy potential?
+
+![Graph: energy production over time per region](images/eg_wind_vs_solar_reliability.png)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
