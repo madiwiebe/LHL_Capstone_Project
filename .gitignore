@@ -2,7 +2,7 @@
 data/
 
 # ignore metadata files
-data/metadata
+metadata/
 
 # ignore trials, retired data
 notebooks/trials.ipynb
