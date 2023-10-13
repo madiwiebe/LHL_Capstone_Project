@@ -4,6 +4,8 @@ data/
 # ignore metadata files
 metadata/
 
+data/metadata/
+
 # ignore trials, retired data
 notebooks/trials.ipynb
 notebooks/retired_code.ipynb
