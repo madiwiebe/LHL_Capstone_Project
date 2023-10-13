@@ -127,43 +127,54 @@ Key insights relate to average energy production over time, energy production by
 
 ![Map: wind energy production by weather station kWh](images/map_bc_wind_energy_production.png)
 
+The average annual wind energy potential of all weather stations ranged from 10 kWh to over 406,321 kWh.
+
+The weather stations with higher wind potentials tended to be distributed near the mountains or along the coastline, which is consistent with typical wind patterns.
+
 ### Question 2: What is the average annual solar energy potential of each weather station?
 
-![Map: solar energy production by weather station kWh](images/map_bc_solar_energy_production.png)
+![Map: solar energy production by weather station kWh](images/map_bc_solar_energy_production_new.png)
+
+The average annual solar energy potential of all weather stations ranged from 813 kWh to 3,465 kWh.
+
+The variability of solar energy potential was much lower between stations, and no single location stood out as having significantly increased solar potential.
 
 ### Question 2: Which regions have the highest energy potential for each renewable resource?
 
 ![Graph energy production by region kWh](images/graphs_annual_energy_by_region.png)
 
+The top three regions with the highest energy production potential were the same between wind and solar data, but had different rankings. This difference suggests that regions may be more suited to one form of energy generation than the other. To further support this hypothesis, regions such as the Prince George region had dramatic differences in their wind potential compared to their solar potential, encouraging further analysis.
+
 ### Question 3: How does the energy potential for each resource change over time? How much impact does seasonality have on each resource's energy potential?
 
 ![Graph: energy production over time per region](images/eg_wind_vs_solar_reliability.png)
+
+Both wind and solar energy production potentials displayed strong seasonal patterns. However, when predicting whether future trends would remain steady or become less predictable, both wind and solar trends followed a consistent pattern, oscillating around a constant average value. Until more complex predictive models can be established, we can conclude that wind and solar energy production potentials should remain consistent over time.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- CHALLENGES -->
 ## Challenges 
 
-- Integrating data from 10 distinct weather station networks posed several challenges. Normalizing measurement units, variable names, observation frequencies, and date ranges were all elements that needed significant effort.
+- Integrating data from ten distinct weather station networks posed several challenges. Standardizing and normalizing data structures, measurement units, variable names, observation frequencies, and date ranges were all steps that required significant attention.
 - The size of the dataset limited the efficiency of any data transformations. Memory limitations inherent to Pandas as well as computer processing ability made for very incremental cleaning and EDA.
-- Large gaps in weather station locations leads to a lack of detailed analysis in remote regions (which are arguably the most relevant target group for homeowners looking for renewable, off-grid energy solutions).
+- Large gaps in weather station locations means that there is a lack of detailed analysis in remote regions.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- FUTURE GOALS -->
 ## Future Goals
 
-- Combine data from other weather resources to improve location coverage.
+- Combine data from other weather resources to improve location coverage. Renewable, off-grid energy solutions are highly relevant to individuals living in remote locations, and this project's findings would be stronger if more locations were included.
 - Improve consistency in the sample sizes used to calculate energy at a given time.
-- Incorporate functions capable of handling dynamic variables instead of set values.
-  - number of solar panels
-  - solar panel efficiency
-  - wind turbine blade length
-  - air density (which is itself dependent on air temperature, air pressure, relative humidity, and elevation) 
+- Incorporate functions capable of handling dynamic variables instead of set values. For example, energy production potential calculations could include:
+  - variable numbers of solar panels
+  - variable solar panel efficiencies based on which product is being installed
+  - different wind turbine blade lengths
+  - specific values for air density (which is itself dependent on air temperature, air pressure, relative humidity, and elevation) 
 - Explore Tableau/Python integration (TabPy).
   - Access Tableau calculated fields and LOD expressions with Python libraries.
   - Visualize more complex modeling results in Tableau.
-- Develop regression model (decision tree) that uses a target energy production threshold to recommend whether wind, solar, both, or neither are capable of meeting that threshold.
-- Create a user interface that allows a client to input their location and receive results based on data from the nearest weather station(s).
+- Develop regression model (decision tree) with a user interface that allows a user to input a target energy production threshold and their location. The model would then recommend whether wind, solar, both, or neither are capable of meeting that threshold.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
