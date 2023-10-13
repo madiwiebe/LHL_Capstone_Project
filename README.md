@@ -81,7 +81,13 @@ To achieve a more realistic representation of energy production potential and pr
 <!-- DATA ACQUISITION -->
 ### Data Acquisition
 - Dataset was downloaded from the [Pacific Climate Data Consortium](https://services.pacificclimate.org/met-data-portal-pcds/app/#close)
+  - Navigate to the "Station Data" tab
+  - Select "CSV/ASCII" as output format
+  - Select "Download Timeseries"
 - Weather station metadata downloaded separately
+  - Navigate to the "Station Metadata" tab
+  - Keep "By History" selected
+  - Select "Download Metadata"
 
 <!-- DATA CLEANING AND EDA -->
 ### Data cleaning and EDA
